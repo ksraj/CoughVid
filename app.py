@@ -1,6 +1,5 @@
 import streamlit as st
 import numpy as np
-import altair as alt
 from PIL import Image
 from tensorflow.keras.models import load_model
 from pathlib import Path
@@ -16,7 +15,7 @@ icon = Image.open('./assets/icon.png')
 
 # Page config setup
 st.set_page_config(
-    page_title="Test Covid From Cough",
+    page_title="CoughVid",
     page_icon=icon,
     layout="centered",
     menu_items={
