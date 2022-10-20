@@ -2,5 +2,3 @@ __pycache__/
 saved_model/__pycache__/
 Helper/__pycache__/
 .DS_Store
-saved_model/*.h5
-saved_model/new_covid_model_15.h5
