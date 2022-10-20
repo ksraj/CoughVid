@@ -9,3 +9,4 @@ wavio==0.0.4
 keras==2.10.0
 opencv-python==4.6.0.66
 scikit-learn==1.1.2
+soundfile==0.11.0
