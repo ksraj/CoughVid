@@ -7,6 +7,6 @@ matplotlib==3.6.1
 librosa==0.8.0
 wavio==0.0.4
 keras==2.9.0
-opencv-python==4.6.0.66
+opencv-python-headless==4.6.0.66
 scikit-learn==1.1.2
 soundfile==0.11.0
