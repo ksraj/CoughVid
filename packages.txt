@@ -3,3 +3,7 @@ libasound-dev
 portaudio19-dev
 python3-cffi
 alsa-utils
+pulseaudio
+multimedia-jack
+alsa-base
+alsa-tools
