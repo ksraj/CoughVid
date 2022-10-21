@@ -10,3 +10,4 @@ keras==2.9.0
 opencv-python==4.6.0.66
 scikit-learn==1.1.2
 soundfile==0.11.0
+libsndfile==1.1.0
