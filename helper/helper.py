@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 from matplotlib import cm
+import pyaudio
+import wave
 import librosa
 from pathlib import Path
-import sounddevice as sd
-import wavio
+#import sounddevice as sd
+#import wavio
 import numpy as np
 
 
@@ -77,14 +79,49 @@ def read_audio(file):
         audio_bytes = audio_file.read()
     return audio_bytes
 
-def record(duration=5, fs=48000):
-    sd.default.samplerate = fs
-    sd.default.channels = 1
-    myrecording = sd.rec(int(duration * fs))
-    sd.wait(duration)
-    return myrecording
+# def record(duration=5, fs=48000):
+#     sd.default.samplerate = fs
+#     sd.default.channels = 1
+#     myrecording = sd.rec(int(duration * fs))
+#     sd.wait(duration)
+#     return myrecording
 
-def save_record(path_myrecording, myrecording, fs):
-    wavio.write(path_myrecording, myrecording, fs, sampwidth=2)
-    return None
+
+
+def record(duration=5, fs=44100):
+	# start Recording
+	audio = pyaudio.PyAudio()
+	chunk = 1024
+	stream = audio.open(
+		format = pyaudio.paInt16,
+		channels = 1,
+		rate = fs,
+		input=True,
+		frames_per_buffer=chunk,
+		input_device_index=0)
+	frames = []
+	for i in range(0, int(fs / chunk * duration)):
+		data = stream.read(chunk)
+		frames.append(data)
+	# stop Recording
+	stream.stop_stream()
+	stream.close()
+	audio.terminate()
+	return frames
+
+
+
+
+
+def save_record(path_myrecording, frames, fs):
+#   wavio.write(path_myrecording, myrecording, fs, sampwidth=2)
+	audio = pyaudio.PyAudio()
+	format = pyaudio.paInt16
+	waveFile = wave.open(path_myrecording, 'wb')
+	waveFile.setnchannels(1)
+	waveFile.setsampwidth(audio.get_sample_size(format))
+	waveFile.setframerate(fs)
+	waveFile.writeframes(b''.join(frames))
+	waveFile.close()
+	return None
     

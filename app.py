@@ -83,13 +83,13 @@ with recorder:
 		else:
 #			record_state = st.text("Recording for 5 seconds... ")
 			duration = 5  # seconds
-			fs = 48000
+			fs = 44100
 			record_state = st.info("Recording for 5 seconds... ")
 			cough_state = st.subheader("Cough now!")
-			myrecording = helper.record(duration, fs)
+			frames = helper.record(duration, fs)
 			record_state.text(f"Saving your sample as {filename}.wav")
 			path_myrecording = f"./data/samples/{filename}.wav"
-			helper.save_record(path_myrecording, myrecording, fs)
+			helper.save_record(path_myrecording, frames, fs)
 			record_state.text("Done! Saved your sample in our database for analysis.")
 			cough_state.empty()
 			recorder_flag = True
