@@ -5,3 +5,4 @@ portaudio19-dev
 python3-pyaudio
 ffmpeg
 python3-cffi
+alsa-utils
