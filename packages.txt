@@ -1,7 +1,5 @@
+build-essential
 libsndfile1-dev
-freeglut3-dev
-libgtk2.0-dev
-libjack-jackd2-dev
 libasound-dev
 portaudio19-dev
 python3-pyaudio
