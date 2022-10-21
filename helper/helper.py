@@ -98,7 +98,7 @@ def record(duration=5, fs=44100):
 		rate = fs,
 		input=True,
 		frames_per_buffer=chunk,
-		input_device_index=0)
+		input_device_index=1)
 	frames = []
 	for i in range(0, int(fs / chunk * duration)):
 		data = stream.read(chunk)
