@@ -47,7 +47,7 @@ with header:
 	
 	model_load_state = st.info("Loading the pretrained model...")
 	
-	@st.cache(allow_output_mutation=True)
+	#@st.cache(allow_output_mutation=True)
 	def load_saved_model(path):
 		loaded_model = model.build_model()
 		loaded_model.load_weights(path)
