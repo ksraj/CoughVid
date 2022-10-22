@@ -1,8 +1,3 @@
 libsndfile1-dev
-libasound-dev
+Libasound2-dev
 portaudio19-dev
-python3-cffi
-alsa-utils
-pulseaudio
-multimedia-jack
-alsa-tools
