@@ -5,3 +5,4 @@ libportaudio2
 libportaudiocpp0
 ffmpeg
 libav-tools
+python3-pyaudio
