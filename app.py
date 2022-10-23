@@ -56,7 +56,7 @@ with header:
 	@st.cache(allow_output_mutation=True)
 	def load_saved_model(path):
 		loaded_model = model.build_model()
-		loaded_model.load_weights(model.h5) #for directly access the git lfs file
+		loaded_model.load_weights(str("./model.h5")) #for directly access the git lfs file
 #		loaded_model._make_predict_function()
 		loaded_model.summary()
 		return loaded_model
