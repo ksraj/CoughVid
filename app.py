@@ -6,9 +6,11 @@ import matplotlib.pyplot as plt
 from helper import helper
 from helper import preprocessor
 from saved_model import model
+import os
+import subprocess
 
 #for directly access the git lfs file
-import subprocess
+
 if not os.path.isfile('model.h5'):
     subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ksraj/CoughVid/main/saved_model/new_covid_model_15.h5"'], shell=True)
 
