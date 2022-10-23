@@ -1,12 +1,16 @@
 import streamlit as st
 import numpy as np
 from PIL import Image
-from tensorflow.keras.models import load_model
 from pathlib import Path
 import matplotlib.pyplot as plt
 from helper import helper
 from helper import preprocessor
 from saved_model import model
+
+#for directly access the git lfs file
+import subprocess
+if not os.path.isfile('model.h5'):
+    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ksraj/CoughVid/main/saved_model/new_covid_model_15.h5"'], shell=True)
 
 
 
@@ -47,10 +51,10 @@ with header:
 	
 	model_load_state = st.info("Loading the pretrained model...")
 	
-	#@st.cache(allow_output_mutation=True)
+	@st.cache(allow_output_mutation=True)
 	def load_saved_model(path):
 		loaded_model = model.build_model()
-		loaded_model.load_weights(path)
+		loaded_model.load_weights(model.h5) #for directly access the git lfs file
 #		loaded_model._make_predict_function()
 		loaded_model.summary()
 		return loaded_model
