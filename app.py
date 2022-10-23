@@ -11,8 +11,8 @@ import subprocess
 
 #for directly access the git lfs file
 
-if not os.path.isfile('model.h5'):
-    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ksraj/CoughVid/main/saved_model/new_covid_model_15.h5"'], shell=True)
+# if not os.path.isfile('model.h5'):
+#     subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ksraj/CoughVid/main/saved_model/new_covid_model_15.h5"'], shell=True)
 
 
 
@@ -30,7 +30,7 @@ st.set_page_config(
         Made with ❤️ by [Kumar](https://github.com/ksraj)
         """,
         "Get Help": "https://twitter.com/kumaronzero",
-        "Report a Bug": "https://github.com/ksraj",
+        "Report a Bug": "https://github.com/ksraj/CoughVid",
     },
 )
 
@@ -56,7 +56,8 @@ with header:
 	@st.cache(allow_output_mutation=True)
 	def load_saved_model(path):
 		loaded_model = model.build_model()
-		loaded_model.load_weights(str("./model.h5")) #for directly access the git lfs file
+		loaded_model.load_weights(path)
+# 		loaded_model.load_weights(str("./model.h5")) #for directly access the git lfs file
 #		loaded_model._make_predict_function()
 		loaded_model.summary()
 		return loaded_model
@@ -83,29 +84,30 @@ with recorder:
 		""", unsafe_allow_html=True)
 	filename = filename.replace(' ', '_')
 	
-	if st.button(f"Click to Record"):
-		if filename == "":
-			st.warning("Please enter your name above.")
-		else:
-#			record_state = st.text("Recording for 5 seconds... ")
-			duration = 5  # seconds
-			fs = 44100
-			record_state = st.info("Recording for 5 seconds... ")
-			cough_state = st.subheader("Cough now!")
-			frames = helper.record(duration, fs)
-			record_state.text(f"Saving your sample as {filename}.wav")
-			path_myrecording = f"./data/samples/{filename}.wav"
-			helper.save_record(path_myrecording, frames, fs)
-			record_state.text("Done! Saved your sample in our database for analysis.")
-			cough_state.empty()
-			recorder_flag = True
-			
-		
+	if filename == "":
+		st.warning("Please enter your name above. Then press Enter")
+	else:
+		st.info(f"Press the START button below to start the recording. After pressing the button when you are seeing a STOP button then start Coughing loudly. Stop the recording after 5-7 seconds.")
+		path_myrecording = f"./data/samples/{filename}.wav"
+		helper.aiortc_audio_recorder(path_myrecording)
+		cough_state = st.subheader("Cough now!")
+		st.warning("Please STOP the recording after 5-7 seconds.")
+		file_path = Path(f"./data/samples/{filename}.wav")
+		if file_path.is_file():
+			st.audio(helper.read_audio(path_myrecording))
+			if st.button(f"SEND THIS SAMPLE"):
+				record_state = st.text("")
+				record_state.text("Done! Saved your sample in our database for analysis.")
+				cough_state.empty()
+				recorder_flag = True
+			else:
+				record_state = st.info("Press the above button to send your recording for analysis. You will see the report within 2-5 seconds!")
+
+
 with result:
 	sample_path = Path(f"./data/samples/{filename}.wav")
 	if recorder_flag:
 		if sample_path.is_file():
-			st.audio(helper.read_audio(path_myrecording))
 			result_state = st.text("Please wait while we are preprocessing your sample.")
 			feature = preprocessor.sample_preprocess(sample_path)
 #			fig1 = plt.figure()

@@ -7,6 +7,23 @@ from pathlib import Path
 #import sounddevice as sd
 #import wavio
 import numpy as np
+from streamlit_webrtc import webrtc_streamer, WebRtcMode, WebRtcStreamerContext
+from aiortc.contrib.media import MediaRecorder
+
+
+MEDIA_STREAM_CONSTRAINTS = {
+    "video": False,
+    "audio": {
+        # these setting doesn't work
+        # "sampleRate": 48000,
+        # "sampleSize": 16,
+        # "channelCount": 1,
+        "echoCancellation": False,  # don't turn on else it would reduce wav quality
+        "noiseSuppression": True,
+        "autoGainControl": True,
+    },
+}
+
 
 
 def plot_embedding_as_heatmap(embed, ax=None, title="", shape=None, color_range=(0, 0.30)):
@@ -112,8 +129,6 @@ def record(duration=5, fs=44100):
 
 
 
-
-
 def save_record(path_myrecording, frames, fs):
 #   wavio.write(path_myrecording, myrecording, fs, sampwidth=2)
 	audio = pyaudio.PyAudio()
@@ -125,4 +140,20 @@ def save_record(path_myrecording, frames, fs):
 	waveFile.writeframes(b''.join(frames))
 	waveFile.close()
 	return None
+
+
+
+
+
+def aiortc_audio_recorder(wavpath):
+    def recorder_factory():
+		return MediaRecorder(wavpath)
+    webrtc_ctx: WebRtcStreamerContext = webrtc_streamer(
+        key="sendonly-audio",
+        mode=WebRtcMode.SENDONLY,
+#       mode=WebRtcMode.SENDRECV,
+        in_recorder_factory=recorder_factory,
+        media_stream_constraints=MEDIA_STREAM_CONSTRAINTS,
+        audio_html_attrs={"muted": True}
+    )
     
