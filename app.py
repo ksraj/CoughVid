@@ -14,9 +14,9 @@ import subprocess
 # if not os.path.isfile('model.h5'):
 #     subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ksraj/CoughVid/main/saved_model/new_covid_model_15.h5"'], shell=True)
 
-TMP_DIR = Path('temp')
-if not TMP_DIR.exists():
-    TMP_DIR.mkdir(exist_ok=True, parents=True)
+# TMP_DIR = Path('temp')
+# if not TMP_DIR.exists():
+#     TMP_DIR.mkdir(exist_ok=True, parents=True)
 
 
 icon = Image.open('./assets/icon.png')
@@ -86,21 +86,23 @@ with recorder:
 		<style>.stTextInput > label {font-size:105%;border: 2px;border-radius: 2px;} </style>
 		""", unsafe_allow_html=True)
 	filename = filename.replace(' ', '_')
-	if "wavpath" not in st.session_state:
-		tmp_wavpath = TMP_DIR / f'{filename}.wav'
-		st.session_state["wavpath"] = str(tmp_wavpath)
-
-	wavpath = st.session_state["wavpath"]
+# 	if "wavpath" not in st.session_state:
+# 		tmp_wavpath = TMP_DIR / f'{filename}.wav'
+# 		st.session_state["wavpath"] = str(tmp_wavpath)
+#
+# 	wavpath = st.session_state["wavpath"]
 	
 	if filename == "":
 		st.warning("Please enter your name above. Then press Enter")
 	else:
 		st.info(f"Press the START button below to start the recording. After pressing the button when you are seeing a STOP button then start Coughing loudly. Stop the recording after 5-7 seconds.")
-		path_myrecording = str(wavpath)
+		#path_myrecording = str(wavpath)
+		path_myrecording = f"./data/samples/{filename}.wav"
 		helper.aiortc_audio_recorder(path_myrecording)
 		cough_state = st.subheader("Cough now!")
 		st.warning("Please STOP the recording after 5-7 seconds.")
-		file_path = Path(str(wavpath))
+		#file_path = Path(str(wavpath))
+		file_path = Path(f"./data/samples/{filename}.wav")
 		if file_path.is_file():
 			st.audio(helper.read_audio(path_myrecording))
 			if st.button(f"SEND THIS SAMPLE"):
@@ -113,7 +115,8 @@ with recorder:
 
 
 with result:
-	sample_path = Path(str(wavpath))
+	#sample_path = Path(str(wavpath))
+	sample_path = Path(f"./data/samples/{filename}.wav")
 	if recorder_flag:
 		if sample_path.is_file():
 			result_state = st.text("Please wait while we are preprocessing your sample.")
