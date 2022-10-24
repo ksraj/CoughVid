@@ -7,7 +7,7 @@ from pathlib import Path
 #import sounddevice as sd
 #import wavio
 import numpy as np
-from streamlit_webrtc import webrtc_streamer, WebRtcMode, WebRtcStreamerContext
+from streamlit_webrtc import webrtc_streamer, WebRtcMode, WebRtcStreamerContext, ClientSettings
 from aiortc.contrib.media import MediaRecorder
 
 
@@ -155,7 +155,10 @@ def aiortc_audio_recorder(wavpath):
 		mode=WebRtcMode.SENDONLY,
 		#mode=WebRtcMode.SENDRECV,
 		in_recorder_factory=recorder_factory,
-		media_stream_constraints=MEDIA_STREAM_CONSTRAINTS,
+		client_settings=ClientSettings(
+			rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+			media_stream_constraints=MEDIA_STREAM_CONSTRAINTS,
+		),
 		audio_html_attrs={"muted": True}
 	)
 
