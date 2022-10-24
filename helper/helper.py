@@ -152,13 +152,13 @@ def aiortc_audio_recorder(wavpath):
 		return MediaRecorder(wavpath)
 	webrtc_ctx: WebRtcStreamerContext = webrtc_streamer(
 		key="sendonly-audio",
-		#mode=WebRtcMode.SENDONLY,
-		mode=WebRtcMode.SENDRECV,
+		mode=WebRtcMode.SENDONLY,
+		#mode=WebRtcMode.SENDRECV,
 		in_recorder_factory=recorder_factory,
 		client_settings=ClientSettings(
 			rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
 			media_stream_constraints=MEDIA_STREAM_CONSTRAINTS,
 		),
-		audio_html_attrs={"muted": True}
+		#audio_html_attrs={"muted": True}
 	)
 
